@@ -21,6 +21,9 @@ public:
 
     friend bool operator==(const Map& lhs, const Map& rhs); //declares global operator friend 
     friend class Search;                //to access protected members. Otherwise, need accessors.
+
+    int width() const { return w; }
+    int height() const { return h; }
 };
 
 bool operator==(const Map& lhs, const Map& rhs);    //returns true if both maps are equivalent

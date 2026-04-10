@@ -9,10 +9,30 @@ Map::Map():h(0),w(0){
 Map::Map(std::string filename){
     
     //Load the file
+    std::ifstream file(filename);
+
+    if (!file) {
+        std::cerr << "Error al abrir el archivo\n";
+        exit(1);
+    }
+
+    // Leer dimensiones
+    file >> h >> w;
+
     //Resize map
+    _map.resize(h, std::vector<int>(w));
+
     //Save file information in map
+    for(int i = 0; i < h; i++){
+        for(int j = 0; j < w; j++){
+            file >> _map[i][j];
+        }
+    }
+
     //Close file
-}   
+    file.close();
+}
+  
 
 Map::Map(const Map& rhs):h(rhs.h),w(rhs.w),_map(rhs._map){
 

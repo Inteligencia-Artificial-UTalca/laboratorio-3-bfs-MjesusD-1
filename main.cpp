@@ -54,7 +54,9 @@ int main(int argc, char *argv[]){
       //Calculate path distance
       //Print path distance
     
-    auto path = Search::BFS(map, {x1, y1}, {x2, y2});
+    //auto path = Search::BFS(map, {x1, y1}, {x2, y2});
+
+    auto path = Search::Greedy(map, {x1, y1}, {x2, y2});
 
     if (path.empty()) {
         std::cout << "No se encontró camino\n";

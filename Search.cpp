@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <iostream>
 #include <limits>
+#include <cmath>
 
 
 namespace std
@@ -123,3 +124,87 @@ std::vector<std::pair<int,int>> Search::BFS(const Map& map, std::pair<int,int> s
     path.push_back(goal);
     return {};
 }
+
+
+float Search::Heuristic(std::pair<int,int> a, std::pair<int,int> b) {
+    int dx = a.first - b.first;   // diferencia columnas
+    int dy = a.second - b.second; // diferencia filas
+    return std::sqrt(dx*dx + dy*dy);  // Distancia euclidiana
+}
+
+std::vector<std::pair<int,int>> Search::Greedy(const Map& map,
+    std::pair<int,int> start, std::pair<int,int> goal) {
+    
+    std::cout<<"===========================\nRunning Greedy Best-First...\n";
+    auto startTime = std::chrono::high_resolution_clock::now();
+
+    //stores possible directions
+    std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+
+    std::vector<std::vector<bool>> visited(map.h, std::vector<bool>(map.w, false));
+    std::unordered_map<std::pair<int,int>,std::pair<int,int>> pathCache;
+
+    // Priority Queue 
+    using pPair = std::pair<float, std::pair<int,int>>; // {heurística, posición}
+    std::priority_queue<pPair, std::vector<pPair>, std::greater<pPair>> OPEN;
+
+    //add first node to open list
+    OPEN.push({Heuristic(start, goal), start});
+    visited[start.first][start.second] = true;
+
+    while(!OPEN.empty()){
+        //get node (Menor heurística)
+        auto curr = OPEN.top();
+        auto pos = curr.second;
+        OPEN.pop();
+
+        //check if node is goal
+        if(pos==goal){
+            auto endTime = std::chrono::high_resolution_clock::now();
+            int count=0;
+            for(int i=0;i<map.h;i++){
+                for(int j=0;j<map.w;j++){
+                    if(visited[i][j])count++;
+                }
+            }
+            std::cout<<"VISITED: "<<count<<std::endl;
+            std::cout<<"OPEN: "<<OPEN.size()<<std::endl;
+            std::cout<<"FOUND in "<<(endTime-startTime).count()/1000000.0<<"ms\n";
+            return reconstruct(pathCache,pos);
+        }
+
+        for(auto dir:dirs){
+            int nx = pos.first + dir.first;
+            int ny = pos.second + dir.second;
+
+            // verificar límites
+            if(nx < 0 || nx >= map.h || ny < 0 || ny >= map.w)
+                continue;
+
+            // verificar obstáculo
+            if(map._map[nx][ny] == 1)
+                continue;
+
+            // verificar visitado
+            if(visited[nx][ny])
+                continue;
+
+            // marcar visitado
+            visited[nx][ny] = true;
+
+            // agregar a priority queue con heurística
+            OPEN.push({Heuristic({nx, ny}, goal), {nx, ny}});
+
+            // guardar padre
+            pathCache[{nx, ny}] = pos;
+        }
+    }
+    std::cout<<"NOT FOUND!!!!\n";
+    
+    //let's just return start and goal to draw them
+    std::vector<std::pair<int,int>> path;
+    path.push_back(start);
+    path.push_back(goal);
+    return {};
+}
+

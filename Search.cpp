@@ -216,7 +216,7 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
         map.h,
         std::vector<float>(map.w, std::numeric_limits<float>::infinity())
     );
-    
+
     gScore[start.first][start.second] = 0;
 
     std::vector<std::vector<bool>> closed(
@@ -230,6 +230,8 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
     // insertar nodo inicial
     OPEN.push({Heuristic(start, goal), start});
 
+    std::unordered_map<std::pair<int,int>, std::pair<int,int>> pathCache;
+
     while(!OPEN.empty()){
         auto current = OPEN.top();
         auto pos = current.second;
@@ -241,7 +243,7 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
         closed[pos.first][pos.second] = true;
 
         if(pos == goal){
-        return reconstruct({}, pos); // temporal
+        return reconstruct(pathCache, pos);
         }
 
         std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
@@ -262,7 +264,9 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
             float tentative_g = gScore[pos.first][pos.second] + 1.0f;
 
             if(tentative_g < gScore[nx][ny]){
-                gScore[nx][ny] = tentative_g;
+                pathCache[{nx, ny}] = pos;
+                float f = tentative_g + Heuristic({nx, ny}, goal);
+                OPEN.push({f, {nx, ny}});
             }
         }
     }   

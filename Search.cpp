@@ -216,7 +216,56 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
         map.h,
         std::vector<float>(map.w, std::numeric_limits<float>::infinity())
     );
+    
     gScore[start.first][start.second] = 0;
+
+    std::vector<std::vector<bool>> closed(
+        map.h,
+        std::vector<bool>(map.w, false)
+    );
+
+    using pPair = std::pair<float, std::pair<int,int>>;
+    std::priority_queue<pPair, std::vector<pPair>, std::greater<pPair>> OPEN;
+
+    // insertar nodo inicial
+    OPEN.push({Heuristic(start, goal), start});
+
+    while(!OPEN.empty()){
+        auto current = OPEN.top();
+        auto pos = current.second;
+        OPEN.pop();
+
+        if(closed[pos.first][pos.second])
+            continue;
+
+        closed[pos.first][pos.second] = true;
+
+        if(pos == goal){
+        return reconstruct({}, pos); // temporal
+        }
+
+        std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+
+        for(auto dir:dirs){
+            int nx = pos.first + dir.first;
+            int ny = pos.second + dir.second;
+
+            if(nx < 0 || nx >= map.h || ny < 0 || ny >= map.w)
+            continue;
+
+            if(map._map[nx][ny] == 1)
+            continue;
+
+            if(closed[nx][ny])
+            continue;
+
+            float tentative_g = gScore[pos.first][pos.second] + 1.0f;
+
+            if(tentative_g < gScore[nx][ny]){
+                gScore[nx][ny] = tentative_g;
+            }
+        }
+    }   
 
     return {};
 }

@@ -22,6 +22,7 @@ namespace std
 	};
 }
 
+
 std::vector<std::pair<int,int>> Search::reconstruct(const std::unordered_map<std::pair<int,int>,std::pair<int,int>> &pathCache, const std::pair<int,int> &start){
 	std::deque<std::pair<int,int>> nodes;
 	auto node = start;//make copy
@@ -225,7 +226,14 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
     );
 
     using pPair = std::pair<float, std::pair<int,int>>;
-    std::priority_queue<pPair, std::vector<pPair>, std::greater<pPair>> OPEN;
+
+    struct Compare {
+        bool operator()(const pPair& a, const pPair& b) {
+        return a.first > b.first;
+        }
+    };
+    
+    std::priority_queue<pPair, std::vector<pPair>, Compare> OPEN;
 
     // insertar nodo inicial
     OPEN.push({Heuristic(start, goal), start});

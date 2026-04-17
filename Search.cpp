@@ -130,7 +130,8 @@ std::vector<std::pair<int,int>> Search::BFS(const Map& map, std::pair<int,int> s
 float Search::Heuristic(std::pair<int,int> a, std::pair<int,int> b) {
     int dx = a.first - b.first;   // diferencia columnas
     int dy = a.second - b.second; // diferencia filas
-    return std::sqrt(dx*dx + dy*dy);  // Distancia euclidiana
+    //return std::sqrt(dx*dx + dy*dy);  // Distancia euclidiana
+    return abs(a.first - b.first) + abs(a.second - b.second); //Manhattan
 }
 
 std::vector<std::pair<int,int>> Search::Greedy(const Map& map,
@@ -272,7 +273,11 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
             float tentative_g = gScore[pos.first][pos.second] + 1.0f;
 
             if(tentative_g < gScore[nx][ny]){
+
+                gScore[nx][ny] = tentative_g;
+
                 pathCache[{nx, ny}] = pos;
+
                 float f = tentative_g + Heuristic({nx, ny}, goal);
                 OPEN.push({f, {nx, ny}});
             }

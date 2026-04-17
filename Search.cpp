@@ -208,3 +208,16 @@ std::vector<std::pair<int,int>> Search::Greedy(const Map& map,
     return {};
 }
 
+//A*
+std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> start,std::pair<int,int> goal){
+    
+    std::cout<<"===========================\nRunning A*...\n";
+    std::vector<std::vector<float>> gScore(
+        map.h,
+        std::vector<float>(map.w, std::numeric_limits<float>::infinity())
+    );
+    gScore[start.first][start.second] = 0;
+
+    return {};
+}
+

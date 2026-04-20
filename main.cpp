@@ -3,6 +3,8 @@
 #include "ColorMap.h"
 #include <cassert>
 #include <iostream>
+#include <fstream>
+#include <chrono>
 
 
 float pathCost(const Map& map, const std::vector<std::pair<int,int>>& path){
@@ -13,6 +15,36 @@ float pathCost(const Map& map, const std::vector<std::pair<int,int>>& path){
     }
 
     return cost;
+}
+
+template<typename Func>
+void benchmarkCSV(
+    std::ofstream& file,
+    const std::string& mapName,
+    const std::string& algoName,
+    Func f,
+    const Map& map,
+    std::pair<int,int> start,
+    std::pair<int,int> goal,
+    int iterations)
+{
+    for(int i = 0; i < iterations; i++){
+
+        auto t1 = std::chrono::high_resolution_clock::now();
+        auto path = f(map, start, goal);
+        auto t2 = std::chrono::high_resolution_clock::now();
+
+        double timeMs =
+            std::chrono::duration<double, std::milli>(t2 - t1).count();
+
+        float cost = path.empty() ? -1.0f : pathCost(map, path);
+
+        file << mapName << ","
+             << algoName << ","
+             << i << ","
+             << timeMs << ","
+             << cost << "\n";
+    }
 }
 
 int main(int argc, char *argv[]){
@@ -61,29 +93,13 @@ int main(int argc, char *argv[]){
         return 0;
     }
 
-    ColorMap colorMap(map);
-    colorMap.print();
+    //ColorMap colorMap(map);
+    //colorMap.print();
 
       //Calculate path distance
       //Print path distance
-    
-    //auto path = Search::BFS(map, {x1, y1}, {x2, y2});
-
-    //auto path = Search::Greedy(map, {x1, y1}, {x2, y2});
-
-    //auto path = Search::AStar(map, {x1, y1}, {x2, y2});
-
-    /*auto path = Search::AStarWeighted(map, {x1, y1}, {x2, y2}, 2.0f);
-
-    if (path.empty()) {
-        std::cout << "No se encontró camino\n";
-    } else {
-        colorMap.print(path);
-        std::cout << "Distancia: " << path.size() - 1 << std::endl;
-    }*/
-
-
-    std::vector<std::pair<int,int>> path;
+   
+    /* std::vector<std::pair<int,int>> path;
 
     // BFS
     path = Search::BFS(map, {x1, y1}, {x2, y2});
@@ -119,7 +135,32 @@ int main(int argc, char *argv[]){
         colorMap.print(path);
     } else {
         std::cout << "WA*: No se encontró camino\n";
-    }
+    }*/
+
+    std::pair<int,int> start = {x1, y1};
+    std::pair<int,int> goal  = {x2, y2};
+
+    int iterations = 20;
+
+    std::ofstream file("results.csv");
+    file << "map,algorithm,iteration,time_ms,cost\n";
+
+    benchmarkCSV(file, argv[1], "BFS",
+        Search::BFS, map, start, goal, iterations);
+
+    benchmarkCSV(file, argv[1], "Greedy",
+        Search::Greedy, map, start, goal, iterations);
+
+    benchmarkCSV(file, argv[1], "AStar",
+        Search::AStar, map, start, goal, iterations);
+
+    benchmarkCSV(file, argv[1], "WAStar",
+        [&](const Map& m, auto s, auto g){
+            return Search::AStarWeighted(m, s, g, 2.0f);
+        },
+        map, start, goal, iterations);
+
+    std::cout << "Benchmark completado. Archivo: results.csv\n";
     
 
     return 0;

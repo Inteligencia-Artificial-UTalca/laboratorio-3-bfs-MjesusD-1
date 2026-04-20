@@ -214,6 +214,7 @@ std::vector<std::pair<int,int>> Search::Greedy(const Map& map,
 std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> start,std::pair<int,int> goal){
     
     std::cout<<"===========================\nRunning A*...\n";
+    auto startTime = std::chrono::high_resolution_clock::now();
     std::vector<std::vector<float>> gScore(
         map.h,
         std::vector<float>(map.w, std::numeric_limits<float>::infinity())
@@ -252,7 +253,19 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
         closed[pos.first][pos.second] = true;
 
         if(pos == goal){
-        return reconstruct(pathCache, pos);
+
+             auto endTime = std::chrono::high_resolution_clock::now();
+
+            int count = 0;
+            for(int i=0;i<map.h;i++)
+                for(int j=0;j<map.w;j++)
+                    if(closed[i][j]) count++;
+
+            std::cout<<"VISITED: "<<count<<std::endl;
+            std::cout<<"OPEN: "<<OPEN.size()<<std::endl;
+            std::cout<<"FOUND in "<<(endTime-startTime).count()/1000000.0<<"ms\n";
+
+            return reconstruct(pathCache, pos);
         }
 
         std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
@@ -284,6 +297,7 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
         }
     }   
 
+    std::cout<<"NOT FOUND!!!!\n";
     return {};
 }
 
@@ -291,7 +305,9 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
 //Weighted A*
 
 std::vector<std::pair<int,int>> Search::AStarWeighted(const Map& map,std::pair<int,int> start,std::pair<int,int> goal,float weight){
+    
     std::cout<<"===========================\nRunning Weighted A* (w="<<weight<<")...\n";
+    auto startTime = std::chrono::high_resolution_clock::now();
 
     std::vector<std::vector<float>> gScore(
         map.h,
@@ -333,6 +349,16 @@ std::vector<std::pair<int,int>> Search::AStarWeighted(const Map& map,std::pair<i
         closed[pos.first][pos.second] = true;
 
         if(pos == goal){
+            auto endTime = std::chrono::high_resolution_clock::now();
+
+            int count = 0;
+            for(int i=0;i<map.h;i++)
+                for(int j=0;j<map.w;j++)
+                    if(closed[i][j]) count++;
+
+            std::cout<<"VISITED: "<<count<<std::endl;
+            std::cout<<"OPEN: "<<OPEN.size()<<std::endl;
+            std::cout<<"FOUND in "<<(endTime-startTime).count()/1000000.0<<"ms\n";
             return reconstruct(pathCache, pos);
         }
 
@@ -358,12 +384,12 @@ std::vector<std::pair<int,int>> Search::AStarWeighted(const Map& map,std::pair<i
 
                 //peso en la heurística
                 float f = tentative_g + weight * Heuristic({nx, ny}, goal);
-
                 OPEN.push({f, {nx, ny}});
             }
         }
     }
-
+    
+    std::cout<<"NOT FOUND!!!!\n";
     return {};
 }
 

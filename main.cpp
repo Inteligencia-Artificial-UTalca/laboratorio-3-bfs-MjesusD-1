@@ -4,6 +4,23 @@
 #include <cassert>
 #include <iostream>
 
+
+float pathCost(const std::vector<std::pair<int,int>>& path){
+    float cost = 0.0f;
+
+    for(size_t i = 1; i < path.size(); i++){
+        int dx = path[i].first - path[i-1].first;
+        int dy = path[i].second - path[i-1].second;
+
+        if(dx != 0 && dy != 0)
+            cost += 1.41f; // diagonal
+        else
+            cost += 1.0f;  // cardinal
+    }
+
+    return cost;
+}
+
 int main(int argc, char *argv[]){
 
     //Verify that the amount of arguments is correct
@@ -60,14 +77,54 @@ int main(int argc, char *argv[]){
 
     //auto path = Search::AStar(map, {x1, y1}, {x2, y2});
 
-    auto path = Search::AStarWeighted(map, {x1, y1}, {x2, y2}, 2.0f);
+    /*auto path = Search::AStarWeighted(map, {x1, y1}, {x2, y2}, 2.0f);
 
     if (path.empty()) {
         std::cout << "No se encontró camino\n";
     } else {
         colorMap.print(path);
         std::cout << "Distancia: " << path.size() - 1 << std::endl;
+    }*/
+
+
+    std::vector<std::pair<int,int>> path;
+
+    // BFS
+    path = Search::BFS(map, {x1, y1}, {x2, y2});
+    if (!path.empty()) {
+        std::cout << "BFS cost: " << pathCost(path) << std::endl;
+        ColorMap(map).print(path);
+    } else {
+        std::cout << "BFS: No se encontró camino\n";
     }
+
+    // Greedy
+    path = Search::Greedy(map, {x1, y1}, {x2, y2});
+    if (!path.empty()) {
+        std::cout << "Greedy cost: " << pathCost(path) << std::endl;
+        ColorMap(map).print(path);
+    } else {
+        std::cout << "Greedy: No se encontró camino\n";
+    }
+
+    // A*
+    path = Search::AStar(map, {x1, y1}, {x2, y2});
+    if (!path.empty()) {
+        std::cout << "A* cost: " << pathCost(path) << std::endl;
+        ColorMap(map).print(path);
+    } else {
+        std::cout << "A*: No se encontró camino\n";
+    }
+
+    // Weighted A*
+    path = Search::AStarWeighted(map, {x1, y1}, {x2, y2}, 2.0f);
+    if (!path.empty()) {
+        std::cout << "WA* cost (w=2): " << pathCost(path) << std::endl;
+        ColorMap(map).print(path);
+    } else {
+        std::cout << "WA*: No se encontró camino\n";
+    }
+    
 
     return 0;
 }

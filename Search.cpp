@@ -51,7 +51,8 @@ std::vector<std::pair<int,int>> Search::BFS(const Map& map, std::pair<int,int> s
 	auto startTime = std::chrono::high_resolution_clock::now();
 
     //stores possible directions
-    std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+    //std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+    std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
 
     std::vector<std::vector<bool>> visited(map.h, std::vector<bool>(map.w, false));      //we'll just use a matrix og booleans to indicated if visited
     std::queue<std::pair<int,int>> OPEN;
@@ -127,11 +128,17 @@ std::vector<std::pair<int,int>> Search::BFS(const Map& map, std::pair<int,int> s
 }
 
 
-float Search::Heuristic(std::pair<int,int> a, std::pair<int,int> b) {
+/*float Search::Heuristic(std::pair<int,int> a, std::pair<int,int> b) {
     int dx = a.first - b.first;   // diferencia columnas
     int dy = a.second - b.second; // diferencia filas
     //return std::sqrt(dx*dx + dy*dy);  // Distancia euclidiana
     return abs(a.first - b.first) + abs(a.second - b.second); //Manhattan
+}*/
+
+float Search::Heuristic(std::pair<int,int> a, std::pair<int,int> b) {
+    int dx = abs(a.first - b.first);   // diferencia columnas
+    int dy = abs(a.second - b.second); // diferencia filas
+    return (dx + dy) + (1.41f - 2.0f) * std::min(dx, dy); //Octil
 }
 
 std::vector<std::pair<int,int>> Search::Greedy(const Map& map,
@@ -141,7 +148,8 @@ std::vector<std::pair<int,int>> Search::Greedy(const Map& map,
     auto startTime = std::chrono::high_resolution_clock::now();
 
     //stores possible directions
-    std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+    //std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+    std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
 
     std::vector<std::vector<bool>> visited(map.h, std::vector<bool>(map.w, false));
     std::unordered_map<std::pair<int,int>,std::pair<int,int>> pathCache;
@@ -268,7 +276,8 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
             return reconstruct(pathCache, pos);
         }
 
-        std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+        //std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+        std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
 
         for(auto dir:dirs){
             int nx = pos.first + dir.first;
@@ -283,7 +292,9 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
             if(closed[nx][ny])
             continue;
 
-            float tentative_g = gScore[pos.first][pos.second] + 1.0f;
+            //float tentative_g = gScore[pos.first][pos.second] + 1.0f;
+            float cost = (dir.first != 0 && dir.second != 0) ? 1.41f : 1.0f;
+            float tentative_g = gScore[pos.first][pos.second] + cost;
 
             if(tentative_g < gScore[nx][ny]){
 
@@ -336,7 +347,8 @@ std::vector<std::pair<int,int>> Search::AStarWeighted(const Map& map,std::pair<i
 
     std::unordered_map<std::pair<int,int>, std::pair<int,int>> pathCache;
 
-    std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+    //std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+    std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1},{-1,-1},{-1,1},{1,-1},{1,1}};
 
     while(!OPEN.empty()){
         auto current = OPEN.top();
@@ -375,7 +387,9 @@ std::vector<std::pair<int,int>> Search::AStarWeighted(const Map& map,std::pair<i
             if(closed[nx][ny])
                 continue;
 
-            float tentative_g = gScore[pos.first][pos.second] + 1.0f;
+            //float tentative_g = gScore[pos.first][pos.second] + 1.0f;
+            float cost = (dir.first != 0 && dir.second != 0) ? 1.41f : 1.0f;
+            float tentative_g = gScore[pos.first][pos.second] + cost;
 
             if(tentative_g < gScore[nx][ny]){
                 gScore[nx][ny] = tentative_g;

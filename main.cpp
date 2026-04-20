@@ -5,17 +5,11 @@
 #include <iostream>
 
 
-float pathCost(const std::vector<std::pair<int,int>>& path){
+float pathCost(const Map& map, const std::vector<std::pair<int,int>>& path){
     float cost = 0.0f;
 
     for(size_t i = 1; i < path.size(); i++){
-        int dx = path[i].first - path[i-1].first;
-        int dy = path[i].second - path[i-1].second;
-
-        if(dx != 0 && dy != 0)
-            cost += 1.41f; // diagonal
-        else
-            cost += 1.0f;  // cardinal
+        cost += Search::Cost(map, path[i-1], path[i]);
     }
 
     return cost;
@@ -43,7 +37,9 @@ int main(int argc, char *argv[]){
     }
 
     //Load map with class Map
-    Map map(argv[1]);
+    //Map map(argv[1], BINARY);
+    // o
+    Map map(argv[1], HEIGHT);
 
     //Verificación de las coordenadas
     int width = map.width();
@@ -92,8 +88,8 @@ int main(int argc, char *argv[]){
     // BFS
     path = Search::BFS(map, {x1, y1}, {x2, y2});
     if (!path.empty()) {
-        std::cout << "BFS cost: " << pathCost(path) << std::endl;
-        ColorMap(map).print(path);
+        std::cout << "BFS cost: " << pathCost(map,path) << std::endl;
+        colorMap.print(path);
     } else {
         std::cout << "BFS: No se encontró camino\n";
     }
@@ -101,8 +97,8 @@ int main(int argc, char *argv[]){
     // Greedy
     path = Search::Greedy(map, {x1, y1}, {x2, y2});
     if (!path.empty()) {
-        std::cout << "Greedy cost: " << pathCost(path) << std::endl;
-        ColorMap(map).print(path);
+        std::cout << "Greedy cost: " << pathCost(map,path) << std::endl;
+        colorMap.print(path);
     } else {
         std::cout << "Greedy: No se encontró camino\n";
     }
@@ -110,8 +106,8 @@ int main(int argc, char *argv[]){
     // A*
     path = Search::AStar(map, {x1, y1}, {x2, y2});
     if (!path.empty()) {
-        std::cout << "A* cost: " << pathCost(path) << std::endl;
-        ColorMap(map).print(path);
+        std::cout << "A* cost: " << pathCost(map,path) << std::endl;
+        colorMap.print(path);
     } else {
         std::cout << "A*: No se encontró camino\n";
     }
@@ -119,8 +115,8 @@ int main(int argc, char *argv[]){
     // Weighted A*
     path = Search::AStarWeighted(map, {x1, y1}, {x2, y2}, 2.0f);
     if (!path.empty()) {
-        std::cout << "WA* cost (w=2): " << pathCost(path) << std::endl;
-        ColorMap(map).print(path);
+        std::cout << "WA* cost (w=2): " << pathCost(map,path) << std::endl;
+        colorMap.print(path);
     } else {
         std::cout << "WA*: No se encontró camino\n";
     }

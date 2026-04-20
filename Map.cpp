@@ -2,11 +2,11 @@
 #include <iostream>
 #include <fstream>
 
-Map::Map():h(0),w(0){
+Map::Map():h(0),w(0),type(BINARY){
 
 }
 
-Map::Map(std::string filename){
+Map::Map(std::string filename, MapType t):type(t){
     
     //Load the file
     std::ifstream file(filename);
@@ -34,7 +34,7 @@ Map::Map(std::string filename){
 }
   
 
-Map::Map(const Map& rhs):h(rhs.h),w(rhs.w),_map(rhs._map){
+Map::Map(const Map& rhs):h(rhs.h),w(rhs.w),_map(rhs._map),type(rhs.type){
 
 }
 
@@ -47,6 +47,7 @@ Map& Map::operator=(const Map& rhs){
     h=rhs.h;
     w=rhs.w;
     _map=rhs._map;
+    type = rhs.type; 
     return *this;
 }
    

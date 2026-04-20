@@ -5,6 +5,7 @@
 #include <iostream>
 #include <limits>
 #include <cmath>
+#include <algorithm>
 
 
 namespace std
@@ -22,28 +23,55 @@ namespace std
 	};
 }
 
+//Función de costo para mapas a utilizar
 
-std::vector<std::pair<int,int>> Search::reconstruct(const std::unordered_map<std::pair<int,int>,std::pair<int,int>> &pathCache, const std::pair<int,int> &start){
-	std::deque<std::pair<int,int>> nodes;
-	auto node = start;//make copy
+float Search::Cost(const Map& map, 
+                   std::pair<int,int> a, 
+                   std::pair<int,int> b){
 
-    //traverse path from goal to start
+    int dx = b.first - a.first;
+    int dy = b.second - a.second;
 
-    while (true) {
-    nodes.push_front(node);
+    // costo base (movimiento)
+    float moveCost = (dx != 0 && dy != 0) ? 1.41f : 1.0f;
 
-    auto it = pathCache.find(node);
-    if (it == pathCache.end()) break;
+    int valA = map._map[a.first][a.second];
+    int valB = map._map[b.first][b.second];
 
-    node = it->second;
+    //caso mapa binario o de altura
+
+    float heightDiff = std::abs(valB - valA);
+
+    return moveCost + heightDiff;
 }
 
-    //revert path and return it
-    std::vector<std::pair<int,int>> vec;
-    for(auto p:nodes){
-        vec.push_back(p);
+//Identificar mapa
+bool Search::IsWalkable(const Map& map, int x, int y){
+
+    if(map.type == BINARY){
+        return map._map[x][y] == 0;
     }
-    return vec;
+
+    return true; // HEIGHT
+}
+
+std::vector<std::pair<int,int>> Search::reconstruct(
+    const std::unordered_map<std::pair<int,int>,std::pair<int,int>> &pathCache,
+    std::pair<int,int> start,
+    std::pair<int,int> goal)
+{
+    std::vector<std::pair<int,int>> path;
+    auto node = goal;
+
+    while (node != start) {
+        path.push_back(node);
+        node = pathCache.at(node);
+    }
+
+    path.push_back(start);
+    std::reverse(path.begin(), path.end());
+
+    return path;
 }
 
 std::vector<std::pair<int,int>> Search::BFS(const Map& map, std::pair<int,int> start, std::pair<int,int> goal){
@@ -79,7 +107,7 @@ std::vector<std::pair<int,int>> Search::BFS(const Map& map, std::pair<int,int> s
             std::cout<<"VISITED: "<<count<<std::endl;
 			std::cout<<"OPEN: "<<OPEN.size()<<std::endl;
 			std::cout<<"FOUND in "<<(endTime-startTime).count()/1000000.0<<"ms\n";
-			return reconstruct(pathCache,pos);
+			return reconstruct(pathCache, start, pos);
 		}
 
 		for(auto dir:dirs){
@@ -101,7 +129,7 @@ std::vector<std::pair<int,int>> Search::BFS(const Map& map, std::pair<int,int> s
                 continue;
 
             // verificar obstáculo
-            if(map._map[nx][ny] == 1)
+            if(!Search::IsWalkable(map, nx, ny))
                 continue;
 
             // verificar visitado
@@ -180,7 +208,7 @@ std::vector<std::pair<int,int>> Search::Greedy(const Map& map,
             std::cout<<"VISITED: "<<count<<std::endl;
             std::cout<<"OPEN: "<<OPEN.size()<<std::endl;
             std::cout<<"FOUND in "<<(endTime-startTime).count()/1000000.0<<"ms\n";
-            return reconstruct(pathCache,pos);
+            return reconstruct(pathCache, start, pos);
         }
 
         for(auto dir:dirs){
@@ -192,8 +220,8 @@ std::vector<std::pair<int,int>> Search::Greedy(const Map& map,
                 continue;
 
             // verificar obstáculo
-            if(map._map[nx][ny] == 1)
-                continue;
+            if(!Search::IsWalkable(map, nx, ny))
+            continue;
 
             // verificar visitado
             if(visited[nx][ny])
@@ -273,7 +301,7 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
             std::cout<<"OPEN: "<<OPEN.size()<<std::endl;
             std::cout<<"FOUND in "<<(endTime-startTime).count()/1000000.0<<"ms\n";
 
-            return reconstruct(pathCache, pos);
+            return reconstruct(pathCache, start, pos);
         }
 
         //std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
@@ -286,15 +314,14 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
             if(nx < 0 || nx >= map.h || ny < 0 || ny >= map.w)
             continue;
 
-            if(map._map[nx][ny] == 1)
+            if(!Search::IsWalkable(map, nx, ny))
             continue;
 
             if(closed[nx][ny])
             continue;
 
             //float tentative_g = gScore[pos.first][pos.second] + 1.0f;
-            float cost = (dir.first != 0 && dir.second != 0) ? 1.41f : 1.0f;
-            float tentative_g = gScore[pos.first][pos.second] + cost;
+            float tentative_g = gScore[pos.first][pos.second] + Cost(map, pos, {nx, ny});
 
             if(tentative_g < gScore[nx][ny]){
 
@@ -371,7 +398,7 @@ std::vector<std::pair<int,int>> Search::AStarWeighted(const Map& map,std::pair<i
             std::cout<<"VISITED: "<<count<<std::endl;
             std::cout<<"OPEN: "<<OPEN.size()<<std::endl;
             std::cout<<"FOUND in "<<(endTime-startTime).count()/1000000.0<<"ms\n";
-            return reconstruct(pathCache, pos);
+            return reconstruct(pathCache, start, pos);
         }
 
         for(auto dir:dirs){
@@ -381,15 +408,14 @@ std::vector<std::pair<int,int>> Search::AStarWeighted(const Map& map,std::pair<i
             if(nx < 0 || nx >= map.h || ny < 0 || ny >= map.w)
                 continue;
 
-            if(map._map[nx][ny] == 1)
-                continue;
+            if(!Search::IsWalkable(map, nx, ny))
+            continue;
 
             if(closed[nx][ny])
                 continue;
 
             //float tentative_g = gScore[pos.first][pos.second] + 1.0f;
-            float cost = (dir.first != 0 && dir.second != 0) ? 1.41f : 1.0f;
-            float tentative_g = gScore[pos.first][pos.second] + cost;
+            float tentative_g = gScore[pos.first][pos.second] + Cost(map, pos, {nx, ny});
 
             if(tentative_g < gScore[nx][ny]){
                 gScore[nx][ny] = tentative_g;

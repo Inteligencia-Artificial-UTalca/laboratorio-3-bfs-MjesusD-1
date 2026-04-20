@@ -2,16 +2,22 @@
 #include <string>
 #include <vector>
 
+enum MapType {
+    BINARY,
+    HEIGHT
+};
+
 class Map{
 
 protected:
     int h;
     int w;
     std::vector<std::vector<int>> _map;
+    MapType type;
 
 public:
     Map();                              //constructs empty map
-    Map(std::string filename);          //constructs from data in a file
+    Map(std::string filename, MapType type);//constructs from data in a file
     Map(const Map& rhs);                //copy constructor
     ~Map();                             //destructor
     Map& operator=(const Map& rhs);     //assignment operator
@@ -24,6 +30,8 @@ public:
 
     int width() const { return w; }
     int height() const { return h; }
+
+    MapType getType() const { return type; } //opcional
 };
 
 bool operator==(const Map& lhs, const Map& rhs);    //returns true if both maps are equivalent

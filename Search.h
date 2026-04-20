@@ -8,7 +8,13 @@
 class Search{
 
 public:
-    static std::vector<std::pair<int,int>> reconstruct(const std::unordered_map<std::pair<int,int>,std::pair<int,int>> &pathCache, const std::pair<int,int> &start);//reconstructs path
+    //static std::vector<std::pair<int,int>> reconstruct(const std::unordered_map<std::pair<int,int>,std::pair<int,int>> &pathCache, const std::pair<int,int> &start);//reconstructs path
+
+    static std::vector<std::pair<int,int>> reconstruct(
+    const std::unordered_map<std::pair<int,int>,std::pair<int,int>> &pathCache,
+    std::pair<int,int> start,
+    std::pair<int,int> goal);
+    
     static std::vector<std::pair<int,int>> BFS(const Map& map, std::pair<int,int> start, std::pair<int,int> goal);//finds and return path in map from start to goal
     static std::vector<std::pair<int,int>> Greedy(const Map& map, std::pair<
     int,int> start, std::pair<int,int> goal); // finds path using Greedy Best-First Search
@@ -16,5 +22,11 @@ public:
     static std::vector<std::pair<int,int>> AStar(const Map& map,std::pair<int,int> start,std::pair<int,int> goal);
     //Weighted A* 
     static std::vector<std::pair<int,int>> AStarWeighted(const Map& map,std::pair<int,int> start,std::pair<int,int> goal,float weight);
+    
     static float Heuristic(std::pair<int,int> start, std::pair<int,int> goal); // Calculates heuristic value between two points
+
+    static float Cost(const Map& map,
+        std::pair<int,int> a, std::pair<int,int> b);
+
+    static bool IsWalkable(const Map& map, int x, int y);
 };

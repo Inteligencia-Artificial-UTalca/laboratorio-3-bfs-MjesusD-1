@@ -14,5 +14,7 @@ public:
     int,int> start, std::pair<int,int> goal); // finds path using Greedy Best-First Search
     //A*
     static std::vector<std::pair<int,int>> AStar(const Map& map,std::pair<int,int> start,std::pair<int,int> goal);
+    //Weighted A* 
+    static std::vector<std::pair<int,int>> AStarWeighted(const Map& map,std::pair<int,int> start,std::pair<int,int> goal,float weight);
     static float Heuristic(std::pair<int,int> start, std::pair<int,int> goal); // Calculates heuristic value between two points
 };

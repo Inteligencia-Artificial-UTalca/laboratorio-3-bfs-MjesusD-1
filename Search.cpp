@@ -287,3 +287,83 @@ std::vector<std::pair<int,int>> Search::AStar(const Map& map,std::pair<int,int> 
     return {};
 }
 
+
+//Weighted A*
+
+std::vector<std::pair<int,int>> Search::AStarWeighted(const Map& map,std::pair<int,int> start,std::pair<int,int> goal,float weight){
+    std::cout<<"===========================\nRunning Weighted A* (w="<<weight<<")...\n";
+
+    std::vector<std::vector<float>> gScore(
+        map.h,
+        std::vector<float>(map.w, std::numeric_limits<float>::infinity())
+    );
+    gScore[start.first][start.second] = 0;
+
+    std::vector<std::vector<bool>> closed(
+        map.h,
+        std::vector<bool>(map.w, false)
+    );
+
+    using pPair = std::pair<float, std::pair<int,int>>;
+
+    struct Compare {
+        bool operator()(const pPair& a, const pPair& b) {
+            return a.first > b.first; // min-heap por f
+        }
+    };
+
+    std::priority_queue<pPair, std::vector<pPair>, Compare> OPEN;
+
+    // f inicial con peso
+
+    OPEN.push({weight * Heuristic(start, goal), start});
+
+    std::unordered_map<std::pair<int,int>, std::pair<int,int>> pathCache;
+
+    std::pair<int,int> dirs[]{{-1,0},{0,1},{1,0},{0,-1}};
+
+    while(!OPEN.empty()){
+        auto current = OPEN.top();
+        auto pos = current.second;
+        OPEN.pop();
+
+        if(closed[pos.first][pos.second])
+            continue;
+
+        closed[pos.first][pos.second] = true;
+
+        if(pos == goal){
+            return reconstruct(pathCache, pos);
+        }
+
+        for(auto dir:dirs){
+            int nx = pos.first + dir.first;
+            int ny = pos.second + dir.second;
+
+            if(nx < 0 || nx >= map.h || ny < 0 || ny >= map.w)
+                continue;
+
+            if(map._map[nx][ny] == 1)
+                continue;
+
+            if(closed[nx][ny])
+                continue;
+
+            float tentative_g = gScore[pos.first][pos.second] + 1.0f;
+
+            if(tentative_g < gScore[nx][ny]){
+                gScore[nx][ny] = tentative_g;
+
+                pathCache[{nx, ny}] = pos;
+
+                //peso en la heurística
+                float f = tentative_g + weight * Heuristic({nx, ny}, goal);
+
+                OPEN.push({f, {nx, ny}});
+            }
+        }
+    }
+
+    return {};
+}
+

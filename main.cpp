@@ -56,9 +56,11 @@ int main(int argc, char *argv[]){
     
     //auto path = Search::BFS(map, {x1, y1}, {x2, y2});
 
-    //auto path = Search::Greedy(map, {x1, y1}, {x2, y2});
+    auto path = Search::Greedy(map, {x1, y1}, {x2, y2});
 
-    auto path = Search::AStar(map, {x1, y1}, {x2, y2});
+    //auto path = Search::AStar(map, {x1, y1}, {x2, y2});
+
+    //auto path = Search::AStarWeighted(map, {x1, y1}, {x2, y2}, 2.0f);
 
     if (path.empty()) {
         std::cout << "No se encontró camino\n";
@@ -67,6 +69,5 @@ int main(int argc, char *argv[]){
         std::cout << "Distancia: " << path.size() - 1 << std::endl;
     }
 
-    
     return 0;
 }

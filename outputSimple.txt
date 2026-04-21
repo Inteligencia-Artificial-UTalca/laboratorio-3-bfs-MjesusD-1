@@ -1,0 +1,401 @@
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.060004ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.018255ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.017103ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.016502ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.015821ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.01558ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.023926ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.016131ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.024898ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.01547ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.015259ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.015289ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.015069ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.015279ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.01556ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.01545ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.015229ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.01538ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.016632ms
+===========================
+Running BFS...
+VISITED: 23
+OPEN: 15
+FOUND in 0.015159ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.029777ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.012052ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011391ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.018094ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011512ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.014908ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011302ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011342ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011562ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011733ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011753ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011151ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.018505ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011612ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.010961ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.010971ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011141ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011321ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011302ms
+===========================
+Running Greedy Best-First...
+VISITED: 9
+OPEN: 7
+FOUND in 0.011011ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.01533ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013395ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012944ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013065ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012825ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012855ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012624ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.021261ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012704ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012784ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012855ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013155ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012975ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.020329ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.020309ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013275ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012885ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012785ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012755ms
+===========================
+Running A*...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012744ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013877ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012985ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013155ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013726ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.02088ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.022523ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.015139ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013896ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013245ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.014488ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013656ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013145ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013215ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013015ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.019517ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.020469ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.014298ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013195ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.013596ms
+===========================
+Running Weighted A* (w=2)...
+VISITED: 2
+OPEN: 7
+FOUND in 0.012824ms
+Benchmark completado. Archivo: results.csv
